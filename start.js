@@ -121,12 +121,16 @@ function getCoin() {
 // 打开任务列表
 function openTaskList() {
     console.log('打开任务列表')
-    let taskListButtons = text('消耗').findOne(20000)
+    let taskListButtons = findTextDescMatchesTimeout(/分红\+卡牌/, 20000)
     if (!taskListButtons) {
         console.log('出现意外错误，请关闭🐕东重新运行！')
         quit()
     }
-    taskListButtons = taskListButtons.parent().parent().parent().parent().children()
+    if (taskListButtons.indexInParent() == 0) {
+        taskListButtons = taskListButtons.parent().parent().children()
+    } else {
+        taskListButtons = taskListButtons.parent().children()
+    }
 
     let taskListButton = null
     let flag = 0
@@ -267,7 +271,7 @@ function joinTask() {
             click(btn.centerX(), btn.centerY())
             sleep(500)
             console.show()
-            check = textMatches(/.*确认授权即同意.*/).findOne(8000)
+            check = textMatches(/.*确认授权即同意.*/).boundsInside(0,0,device.width,device.height).findOne(8000)
             sleep(2000)
         }
 
@@ -275,10 +279,13 @@ function joinTask() {
             console.log('无法找到入会按钮弹窗，加载失败')
             return false
         }
+
         if (check.indexInParent() == 6) {
-            check = check.parent().child(5).bounds()
+            check = check.parent().child(5)
+        } else if (check.text() == '确认授权即同意') {
+            check = check.parent().child(0)
         } else {
-            check = check.parent().parent().child(5).bounds()
+            check = check.parent().parent().child(5)
         }
 
 
@@ -298,9 +305,9 @@ function joinTask() {
             console.log('有浮窗遮挡，尝试移除')
             if (device.sdkInt >= 24) {
                 gesture(1000, [x, y], [x, y + 200])
-                console.log('已经进行移开操作，如果失败请反馈')
+                console.log('已经进行移开操作，如果失败请带日志给我看')
             } else {
-                console.log('安卓版本低了，我不想写你的适配！自己想办法 ')
+                console.log('安卓版本低了，不想写你的适配！自己想办法 ')
                 return false
             }
         } else {
@@ -309,9 +316,10 @@ function joinTask() {
 
 
         console.log('即将勾选授权，自动隐藏控制台', check)
+        sleep(500)
         console.hide()
         sleep(500)
-        click(check.centerX(), check.centerY())
+        click(x, y)
         sleep(500)
         console.show()
 
@@ -548,7 +556,7 @@ try {
         sleep(2000)
 
         openTaskList();
-        sleep(5000)
+        sleep(2000)
     } else {
         alert('请立刻手动打开🐕东进入活动页面，并打开任务列表', '给你一分钟')
         console.log('请手动打开🐕东App进入活动页面，并打开任务列表')

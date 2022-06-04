@@ -17,7 +17,7 @@
     "permissions": [],
     "serviceDesc": "请务必打开无障碍模式，否则脚本无法启用噢^_^",
     "splashIcon": "logo",
-    "splashText": "Powered by Xu"
+    "splashText": "Powered by Jodesen"
   },
   "main": "main.js",
   "name": "猫猫618",
@@ -27,6 +27,6 @@
     "alias": "",
     "keystore": ""
   },
-  "versionCode": 4,
-  "versionName": "1.0.4"
+  "versionCode": 5,
+  "versionName": "1.0.5"
 }

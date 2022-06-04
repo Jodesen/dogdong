@@ -134,7 +134,17 @@ function findTasks() {
         return false
     }
     console.log('打开任务列表')
-    anchor.parent().parent().parent().parent().child(1).click()
+    anchor = anchor.parent().parent().parent().parent()
+
+    if (anchor.childCount() == 8) { // 关闭弹窗
+        if (anchor.child(7).childCount() > 0) {
+            console.log('关闭弹窗')
+            anchor.child(7).child(0).child(0).child(0).child(3).click()
+            sleep(1000)
+        }
+    }
+
+    anchor.child(1).click()
     sleep(5000)
     let go = text('去完成').findOnce()
     if (!go) {
@@ -193,11 +203,12 @@ function doTask(task) {
             return rect.left > 0 && rect.top <= device.height
         })
 
-        if (!itemFilter.findOne(8000)) {
+        console.log('查找商品，等待至多20秒')
+        if (!itemFilter.findOne(20000)) {
             console.log('未能找到加购商品')
             return false
         }
-        console.log('查找商品')
+
         let items = itemFilter.find()
         if (items.empty() || items.length < 2) {
             console.log('查找商品失败')
@@ -307,8 +318,8 @@ try {
                     continue
                 }
                 if (!doTask(tasks[i])) {
-                    console.log('意外错误，退出脚本！')
-                    quit()
+                    console.log('意外错误，换一个抽奖进行')
+                    break
                 }
                 sleep(5000)
             }
