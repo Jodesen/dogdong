@@ -11,7 +11,7 @@ console.show()
 function getSetting() {
     let indices = []
     autoOpen && indices.push(0)
-    autoMute && indices.push(1)
+    autoJoin && indices.push(1)
 
     let settings = dialogs.multiChoice('任务设置', ['自动打开京东进入活动。无效请取消并手动进去','自动完成入会任务。'],indices)
 

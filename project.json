@@ -20,8 +20,8 @@
     "splashText": "Powered by Jodesen"
   },
   "main": "main.js",
-  "name": "猫猫618",
-  "packageName": "com.jiajia.auto",
+  "name": "嘎嘎鸭",
+  "packageName": "com.duck.auto",
   "scripts": {},
   "signingConfig": {
     "alias": "",
